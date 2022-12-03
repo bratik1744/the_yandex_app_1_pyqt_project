@@ -79,7 +79,8 @@ def delete(obj):
 def read_history():
     con = sqlite3.connect("statistik.db")
     cur = con.cursor()
-    lst = list(map(lambda x: str(x[0]) + ' ' + x[1] + ' ' + str(x[2]), cur.execute("""SELECT * FROM hist_buy""").fetchall()))
+    lst = list(
+        map(lambda x: str(x[0]) + ' ' + x[1] + ' ' + str(x[2]), cur.execute("""SELECT * FROM hist_buy""").fetchall()))
     con.commit()
     cur.close()
     return lst
@@ -89,7 +90,9 @@ def write_history(name, price):
     con = sqlite3.connect("statistik.db")
     cur = con.cursor()
     ss = cur.execute("""SELECT * FROM hist_buy""").fetchall()
-    cur.execute(f"INSERT INTO hist_buy('id', 'name', 'price') VALUES('{len(ss)}', '{name}', '{price}');")
+    ss_2 = cur.execute("""SELECT * FROM stat""").fetchall()
+    cur.execute(
+        f"INSERT INTO hist_buy('id', 'name', 'price', 'id_stat') VALUES('{len(ss)}', '{name}', '{price}', {len(ss_2) - 1});")
     con.commit()
     cur.close()
 
@@ -129,4 +132,4 @@ def del_sql_statistik():
 
 
 if __name__ == "__main__":
-    write_sql_statistik('fres', 'нарушил')
+    write_history('efwe', 5)
